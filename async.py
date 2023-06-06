@@ -1,4 +1,6 @@
 import asyncio
+import logging
+
 import aiohttp
 import time
 from statistics import mean
@@ -35,11 +37,13 @@ async def main():
     async with aiohttp.ClientSession() as session:
         result = await asyncio.gather(temp1(session), temp2(session), temp3(session))
         avg_temperature = round(mean(result), 1)
-        print(f'Average temperature in Hong Kong is  {avg_temperature} degrees Celsius')
+        logging.info(f'Result: {result}')
+        logging.info(f'Average temperature in Hong Kong is  {avg_temperature} degrees Celsius')
 
 
 if __name__ == '__main__':
+    logging.basicConfig(level=logging.INFO)
     s = time.perf_counter()
     asyncio.run(main())
     elapsed = time.perf_counter() - s
-    print(f'{__file__} executed in {elapsed:0.2f} seconds.')
+    logging.info(f'{__file__} executed in {elapsed:0.2f} seconds.')
